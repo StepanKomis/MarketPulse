@@ -1,11 +1,13 @@
 services:
+  # API service - Deno application
   api:
-    build: .
+    build: .  # Build from Dockerfile in current directory
     container_name: marketpulse-api
     ports:
-      - "${PORT:-8000}:8000"
-    env_file: .env
+      - "${PORT:-8000}:8000"  # Map host port to container port
+    env_file: .env  # Load environment variables from .env file
     environment:
+      # Pass database credentials from host environment
       DB_USER: ${DB_USER}
       DB_PASSWD: ${DB_PASSWD}
       DB_NAME: ${DB_NAME}
@@ -14,29 +16,30 @@ services:
       ENV: production
     depends_on:
       postgres:
-        condition: service_healthy
-    restart: unless-stopped
+        condition: service_healthy  # Wait for PostgreSQL to be healthy
+    restart: unless-stopped  # Auto-restart unless manually stopped
     logging:
       driver: json-file
       options:
-        max-size: "10m"
-        max-file: "3"
+        max-size: "10m"  # Rotate logs at 10MB
+        max-file: "3"    # Keep 3 rotated log files
     networks:
-      - marketpulse_internal
-      - marketpulse_external
+      - marketpulse_internal  # Internal network for service-to-service
+      - marketpulse_external  # External network for API access
 
+  # PostgreSQL database service
   postgres:
-    image: postgres:16-alpine
+    image: postgres:16-alpine  # Lightweight Alpine-based PostgreSQL
     container_name: marketpulse-db
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWD}
       POSTGRES_DB: ${DB_NAME}
     volumes:
-      - marketpulse_data:/var/lib/postgresql/data
-      - ./schema.sql:/docker-entrypoint-initdb.d/init.sql
+      - marketpulse_data:/var/lib/postgresql/data  # Persistent data storage
+      - ./schema.sql:/docker-entrypoint-initdb.d/init.sql  # Auto-run schema on first start
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]  # Check if DB is ready
       interval: 5s
       timeout: 5s
       retries: 10
@@ -47,13 +50,15 @@ services:
         max-size: "10m"
         max-file: "3"
     networks:
-      - marketpulse_internal
+      - marketpulse_internal  # Only internal network - no external access
 
+# Network configuration
 networks:
   marketpulse_internal:
-    internal: true
+    internal: true  # No external access, only for container-to-container
   marketpulse_external:
-    internal: false
+    internal: false  # Allows external traffic from host
 
+# Persistent data volume for database
 volumes:
-  marketpulse_data:
+  marketpulse_data:  # Keeps database data between container restarts

@@ -27,3 +27,12 @@ cd MarketPulse
 cp .env.example .env
 docker compose up -d --build
 ```
+
+# Why I built this?
+
+I was preparing for a job application at a trading startup that uses Deno and PostgreSQL.
+Instead of just reading the docs, I built something relevant — a real-time price collector
+that streams live data from Binance, stores it in PostgreSQL, and exposes a REST API to
+query historical prices by symbol and time range.
+
+It's a weekend project, but it has tests, Docker deployment, and a proper schema.
