@@ -1,32 +1,29 @@
 # MarketPulse
 
-MarketPulse is my way of trying the [Deno](https://github.com/denoland/deno)
-project and get to know it better.
+MarketPulse is my way of trying out the [Deno](https://github.com/denoland/deno)
+project and getting to know it better.
 
-## What does the MarketPulse do?
+## What does MarketPulse do?
 
-Market pulse is a simple API and Postgrese combo. You make reques to
-`POST /monitor?symbol=<symbol_you_want_to_monitor>` MarketPulse will save it to
-database symbols and will start a stream from binance to get the prices over
+MarketPulse is a simple API and Postgres combo. You make a request to
+`POST /monitor?symbol=<symbol_you_want_to_monitor>` and MarketPulse will save it
+to the database symbols and start a stream from Binance to get the prices over
 time.
 
-When MarketPulse have run for some time you can now make request like
+When MarketPulse has been running for some time, you can make a request like
 `GET /prices?symbol=BTC&start=<timestamp>&end=<timestamp>` and it will return an
-array of all the rocords, that the database has.
+array of all the records that the database has.
 
 # Deployment
 
-MarketPulse uses [docker](https://github.com/docker) so the deployment is
-straight forwartd and can be done in a few commands. Just clone the repo, copy
-the `.env.example` to `.env` and run `docker compose up -d --build`. Here is a
-bash code block for you to copy:
+MarketPulse uses [Docker](https://github.com/docker), so the deployment is
+straightforward and can be done in a few commands. Just clone the repo, copy the
+`.env.example` to `.env`, and run `docker compose up -d --build`. Here is a bash
+code block for you to copy:
 
 ```sh
-git clone https://github.com/StepanKomis/MarketPulse.git
+git clone [https://github.com/StepanKomis/MarketPulse.git](https://github.com/StepanKomis/MarketPulse.git)
 cd MarketPulse
 cp .env.example .env
 docker compose up -d --build
 ```
-
-**If you plan to run MarketPulse real data collection you should update and
-customice the .env values**
