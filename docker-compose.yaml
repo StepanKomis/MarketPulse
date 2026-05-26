@@ -6,7 +6,11 @@ services:
       - "${PORT:-8000}:8000"
     env_file: .env
     environment:
-      DATABASE_URL: postgres://marketpulse:marketpulse@postgres:5432/marketpulse
+      DB_USER: ${DB_USER}
+      DB_PASSWD: ${DB_PASSWD}
+      DB_NAME: ${DB_NAME}
+      DB_PORT: ${DB_PORT}
+      DB_HOST: ${DB_HOST}
       ENV: production
     depends_on:
       postgres:
@@ -17,16 +21,18 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    networks:
+      - marketpolse
 
   postgres:
     image: postgres:16-alpine
     container_name: marketpulse-db
     environment:
-      POSTGRES_USER:     marketpulse
-      POSTGRES_PASSWORD: marketpulse
-      POSTGRES_DB:       marketpulse
+      POSTGRES_USER:     ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWD}
+      POSTGRES_DB:       ${DB_NAME}
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - marketpulse_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U marketpulse -d marketpulse"]
       interval: 5s
@@ -38,6 +44,10 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-
+    networks:
+      - marketpolse
+networks:
+  marketpolse:
+    internal: true
 volumes:
-  pgdata:
+  marketpulse_data:
