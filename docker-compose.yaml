@@ -6,6 +6,8 @@ services:
       - "${PORT:-8000}:8000"
     env_file: .env
     environment:
+      DATABASE_URL: postgres://marketpulse:marketpulse@postgres:5432/marketpulse
+      ENV: production
     depends_on:
       postgres:
         condition: service_healthy
@@ -15,3 +17,27 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: marketpulse-db
+    environment:
+      POSTGRES_USER:     marketpulse
+      POSTGRES_PASSWORD: marketpulse
+      POSTGRES_DB:       marketpulse
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U marketpulse -d marketpulse"]
+      interval: 5s
+      timeout:  5s
+      retries:  10
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  pgdata:
