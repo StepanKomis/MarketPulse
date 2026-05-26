@@ -48,4 +48,4 @@ function connectSymbol(symbol: string) {
   console.log(`[${symbol}] connected`);
 }
 
-export { setupSockets };
+export { setupSockets, connectSymbol };

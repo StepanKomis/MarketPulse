@@ -1,6 +1,6 @@
 import { Router } from "oak";
 import { getDBClient } from "./db.ts";
-
+import { connectSymbol } from "./binance.ts"
 const router = new Router();
 
 router.get("/prices", async (context) => {
@@ -45,19 +45,26 @@ router.get("/prices", async (context) => {
 });
 
 router.post("/symbols", async (context) => {
-        const params = context.request.url.searchParams;
-        let symbol = params.get("symbol") || "";
-        symbol.toLowerCase
-        if (symbol == "") {
-            context.response.status = 501;
-            context.response.body = "the symbol parameter needs to be filled out"
-            return
-        }
-        const client = await getDBClient();
-        client.queryArray("INSERT INTO symbols (symbol) VALUES ($1)", [symbol]);
-        console.log("Added symbol " + symbol);
-        context.response.status = 200;
-    })
+  const params = context.request.url.searchParams;
+  let symbol = params.get("symbol")?.toLowerCase() || "";  // toLowerCase()
+
+  if (symbol === "") {
+    context.response.status = 400;
+    context.response.body = { error: "symbol parameter is required" };
+    return;
+  }
+
+  const client = await getDBClient();
+  try {
+    await client.queryArray("INSERT INTO symbols (symbol) VALUES ($1)", [symbol]);  // await
+    connectSymbol(symbol);
+    console.log("Added symbol " + symbol);
+    context.response.status = 200;
+    context.response.body = { message: `Now monitoring ${symbol}` };
+  } finally {
+    client.release();
+  }
+});
 
 
 export { router };
