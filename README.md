@@ -1,7 +1,5 @@
 # MarketPulse
 
--------------
-
 MarketPulse is my way of trying the [Deno](https://github.com/denoland/deno)
 project and get to know it better.
 
