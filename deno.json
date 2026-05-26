@@ -4,6 +4,7 @@
   },
   "imports": {
     "@std/dotenv": "jsr:@std/dotenv@^0.225.6",
-    "oak": "https://deno.land/x/oak@v17.2.0/mod.ts"
+    "oak": "https://deno.land/x/oak@v17.2.0/mod.ts",
+    "postgres": "https://deno.land/x/postgres@v0.19.3/mod.ts"
   }
 }
