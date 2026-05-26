@@ -1,18 +1,10 @@
-export function handler(req: Request): Response {
-  const url = new URL(req.url);
+// main.ts - MarketPulse entry point
 
-  if (url.pathname === "/api") {
-    return Response.json({
-      message: "Hello, world!",
-      time: new Date().toISOString(),
-    });
-  }
+import {Application} from "oak";
+import { router } from "./router.ts";
 
-  return new Response("<h1>Welcome to Deno!</h1>", {
-    headers: { "content-type": "text/html" },
-  });
-}
+const app = new Application();
+app.use(router.routes());
+app.use(router.allowedMethods())
 
-if (import.meta.main) {
-  Deno.serve(handler);
-}
+await app.listen({port: 8080})
