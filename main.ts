@@ -16,5 +16,5 @@ setupSockets();
 
 // 3. Start the HTTP server to handle API requests
 // The server will listen on port 8000 (configurable via env)
-console.log("[Server] MarketPulse listening on port 8000");
-await app.listen({ port: 8000 });
+console.log("[Server] MarketPulse listening on port " + Deno.env.get("PORT") || 8000);
+await app.listen({ port: Number(Deno.env.get("PORT")) || 8000 });
