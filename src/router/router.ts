@@ -1,6 +1,6 @@
 import { Router } from "oak";
-import { getDBClient } from "./db.ts";
-import { connectSymbol } from "./binance.ts";
+import { getDBClient } from "../database/db.ts";
+import { connectSymbol } from "../binance/binance.ts";
 
 const router = new Router();
 

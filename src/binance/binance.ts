@@ -1,4 +1,4 @@
-import { getDBClient } from "./db.ts";
+import { getDBClient } from "../../db.ts";
 
 /**
  * Sets up WebSocket connections for all symbols stored in the database

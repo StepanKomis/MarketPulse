@@ -1,5 +1,5 @@
 import { Application } from "oak";
-import { router } from "./router.ts";
+import { router } from "./router/router.ts";
 
 // Create and configure the main Oak application
 // This is the core HTTP server instance

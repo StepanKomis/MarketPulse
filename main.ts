@@ -1,6 +1,6 @@
-import { app } from "./app.ts";
-import { waitForDb } from "./db.ts";
-import { setupSockets } from "./binance.ts";
+import { app } from "./src/app.ts";
+import { waitForDb } from "./src/database/db.ts";
+import { setupSockets } from "./src/binance/binance.ts";
 
 // Application startup sequence
 

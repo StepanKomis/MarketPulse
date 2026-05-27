@@ -1,5 +1,5 @@
 import { assertEquals } from "@std/assert";
-import { getDBClient } from "./db.ts";
+import { getDBClient } from "./database/db.ts";
 
 Deno.test({
   name: "database connection works",
