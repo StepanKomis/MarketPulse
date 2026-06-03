@@ -22,7 +22,7 @@ straightforward and can be done in a few commands. Just clone the repo, copy the
 code block for you to copy:
 
 ```sh
-git clone [https://github.com/StepanKomis/MarketPulse.git](https://github.com/StepanKomis/MarketPulse.git)
+git clone https://github.com/StepanKomis/MarketPulse.git
 cd MarketPulse
 cp .env.example .env
 docker compose up -d --build
